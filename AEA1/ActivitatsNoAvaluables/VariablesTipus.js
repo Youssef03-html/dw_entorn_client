@@ -21,6 +21,7 @@ let area = pi * radi * radi;
 // Mostro el resultat
 console.log("Àrea del cercle: " + area);
 
+
 // EXERCICI 3:
 
 // Declaro i defineixo una variable bigint

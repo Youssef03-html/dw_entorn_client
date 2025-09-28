@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operadors</title>
+</head>
+<body>
+    <h1>Obre la consola del navegador (F12) per veure els resultats</h1>
+
+  <script>
+    // EXERCICI 1:
+
+    // Demano dos nombres a l'usuari amb prompt()
+    let num1 = parseFloat(prompt("Introdueix el primer nombre:"));
+    let num2 = parseFloat(prompt("Introdueix el segon nombre:"));
+
+    // Mostro per consola les operacions
+    console.log("Suma: " + (num1 + num2));
+    console.log("Resta: " + (num1 - num2));
+    console.log("Multiplicació: " + (num1 * num2));
+    console.log("Divisió: " + (num1 / num2));
+
+    // EXERCICI 2:
+
+    // Declaro i defineixo les variables
+    let x = 5;
+    let y = "5";
+
+    // Comparo amb == i amb ===
+    console.log("x == y: " + (x == y));   // true
+    console.log("x === y: " + (x === y)); // false
+    console.log("== compara només el valor, === compara valor i tipus");
+
+    // EXERCICI 3:
+
+    // Declaro i defineixo la variable nota
+    let nota = 8;
+
+    // Mostro l'expressió que retorna true si nota > 5 i <= 10
+    console.log("nota > 5 && nota <= 10: " + (nota > 5 && nota <= 10));
+  </script>
+</body>
+</html>
