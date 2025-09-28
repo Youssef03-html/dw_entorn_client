@@ -137,3 +137,23 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Node
+node_modules/
+dist/
+build/
+.env
+
+# logs
+logs/
+*.log
+npm-debug.log*
+
+# VSCode
+.vscode/
+
+# macOS
+.DS_Store
+# Optional
+coverage/
+
