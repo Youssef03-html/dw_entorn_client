@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // Demanem a l'usuari que introdueixi 3 valors
+        let valor1 = parseInt(prompt("Introdueix el primer valor:"));
+        let valor2 = parseFloat(prompt("Introdueix el segon valor:"));
+        let valor3 = prompt("Introdueix el tercer valor:");
+       
+        // Mostro el valor 1, que he obtingut com a integer, un nombre enter
+        console.log("Primer valor:" + valor1);
+
+        // Mostro el valor 2, que he obtingut com a float, un nombre decimal
+        console.log("Segon valor:" + valor2);
+
+        // Comprovo si el valor 1 es vàlid
+        if (!isNaN(valor1)) 
+        {
+            alert("El valor del nombre 1, es valid.");
+        }
+        else 
+        {
+            alert("El valor del nombre 1 no és valid.");
+        }
+
+        // Comprovo si el valor 2 es vàlid
+        if (!isNaN(valor2)) 
+        {
+            alert("El valor del nombre 2, es valid.");
+        }
+        else 
+        {
+            alert("El valor del nombre 2 no és valid.");
+        }
+
+        // Faig un try catch, per controlar el error i mostrar al usuari quin es.
+        try 
+        {
+            console.log("Resultat operació:", eval(valor3));
+        }  
+        catch (error) 
+        {
+            console.error("Error, no es tracta de una operacio numerica:", error);
+        }
+    </script>
+</body>
+</html>
