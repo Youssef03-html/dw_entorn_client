@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activitat avaluable. Sintaxi bàsica: Gestió notes d’alumnes</title>
+</head>
+<body>
+    <script>
+        let alumnes = ["Anna", "Jordi", "Marta", "Pau", "Laia"]; // Array alumnes que dones al enunciat
+        let notes = ["nota 1", "nota 2", "nota 3", "nota 4", "nota 5"]; // Array per guardar les notes
+        let stringsPerLlegibilitat = ["primera", "segona", "tercera", "quarta", "cinquena"]; // Per facilitar la llegibilitat de l'usuari en el prompt...
+
+        // Bucle per demanar les 5 notes i validar-les
+        let valid = true; // Boolean per poder utilitzar-lo mes tard per comprovacions
+        for (let i = 0; i < notes.length; i++) 
+        {
+            valid = true; // Sempre començara sent true
+            
+            do {
+                // Demano cada nota de manera individual i omplo l'array ja creat amb 5 espais
+                notes[i] = prompt("Introdueix la " + stringsPerLlegibilitat[i] + " nota:");
+                
+                if (notes[i] == null || notes[i] === "") // En cas que l'usuari cliqui cancel al prompt o deixi buit
+                {
+                    alert("Introdueix una nota!!!");
+                    valid = false;
+                }
+                else 
+                {
+                    notes[i] = notes[i].trim(); // Trim em servira per treure espais davant/darrere
+
+                    notes[i] = parseFloat(notes[i]); // Paso la dada a float per fer comparacions numèriques
+
+                    if (isNaN(notes[i]) || notes[i] < 0 || notes[i] > 10) // Comprovo que la nota sigui correcte
+                    {
+                        alert("La nota ha de ser entre 0-10!!!");
+                        valid = false;
+                    }
+                    else
+                    {
+                        valid = true; // Si tot està bé, la nota és vàlida
+                    }
+                }
+
+            } while (!valid); // Repeteix mentre la nota no sigui vàlida
+        }
+
+        // Menú principal: mostra opcions i executa l'acció triada
+        let resposta = "";
+        do 
+        {
+            resposta = prompt( // Prompt amb salts de línia per llegibilitat
+                "1) Veure notes\n" +
+                "2) Classificació aprovat/suspès\n" +
+                "3) Veure nota mitjana\n" +
+                "4) Veure millor i pitjor nota\n" +
+                "0) Sortir"
+            );
+
+            if (resposta === "1") // Veure notes: construeixo cadena i l'alerto
+            {
+                let llistaNotes = "Notes dels alumnes:\n";
+                for (let i = 0; i < alumnes.length; i++) 
+                {
+                    llistaNotes += alumnes[i] + ": " + notes[i] + "\n";
+                }
+                alert(llistaNotes);
+            }
+            else if (resposta === "2") // Classificació aprovat/suspès segons >=5
+            {
+                let classificacio = "Aprovats/Suspesos:\n";
+                for (let i = 0; i < alumnes.length; i++) 
+                {
+                    if (notes[i] >= 5) 
+                    {
+                        classificacio += alumnes[i] + ": Aprovada\n";
+                    }
+                    else 
+                    {
+                        classificacio += alumnes[i] + ": Suspesa\n";
+                    }
+                }
+                alert(classificacio);
+            }
+            else if (resposta === "3") // Nota mitjana: sumo i divideixo
+            {
+                let suma = 0;
+                for (let i = 0; i < notes.length; i++) 
+                {
+                    suma += notes[i];
+                }
+                let mitjana = suma / notes.length;
+                alert("La nota mitjana és: " + mitjana.toFixed(2)); // Mostro amb 2 decimals
+            }
+            else if (resposta === "4") // Millor i pitjor nota: inicialitzo amb el primer element i comparo
+            {
+                let millor = notes[0];
+                let pitjor = notes[0];
+                for (let i = 1; i < notes.length; i++) 
+                {
+                    if (notes[i] > millor) 
+                    {
+                        millor = notes[i];
+                    }
+                    if (notes[i] < pitjor) 
+                    {
+                        pitjor = notes[i];
+                    }
+                }
+                alert("Millor nota: " + millor + "\nPitjor nota: " + pitjor);
+            }
+            else if (resposta === "0") // Sortir del programa
+            {
+                alert("Menu apagat!");
+            }
+            else // Opció incorrecta: aviso a l'usuari
+            {
+                alert("Introdueix una de les opcions: 0, 1, 2, 3, 4");
+            }
+
+        } while (resposta !== "0"); // Manté el menú fins que l'usuari esculli sortir
+         
+    </script>
+</body>
+</html>
