@@ -97,18 +97,23 @@
             {
                 let millor = notes[0];
                 let pitjor = notes[0];
+                let millorAlumne = alumnes[0];
+                let pitjorAlumne = alumnes[0];
+
                 for (let i = 1; i < notes.length; i++) 
                 {
                     if (notes[i] > millor) 
                     {
                         millor = notes[i];
+                        millorAlumne = alumnes[i];
                     }
                     if (notes[i] < pitjor) 
                     {
                         pitjor = notes[i];
+                        pitjorAlumne = alumnes[i];
                     }
                 }
-                alert("Millor nota: " + millor + "\nPitjor nota: " + pitjor);
+                alert("Millor nota: " + millor + " de " + millorAlumne + "\nPitjor nota: " + pitjor + " de " + pitjorAlumne);
             }
             else if (resposta === "0") // Sortir del programa
             {
