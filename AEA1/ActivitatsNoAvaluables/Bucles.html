@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bucles</title>
+</head>
+<body>
+    <script>
+        // Bucle for
+        // Mostrem els números de l'1 al 10
+        console.log("Bucle for:");
+        for (let i = 1; i<= 10; i++) {
+            // Mostrem el valor de i per consola
+            console.log(i);
+        }
+
+        // Bucle while
+        // Mostro els números parells de l'1 al 20
+        console.log("Bucle while:");
+
+        // Torno a inicialitzar la variable i
+        let i = 1;
+        while (i <= 20) {
+            // Comprovem si el número és parell
+            if (i % 2 === 0) {
+                console.log(i);
+            }
+            i++;
+        }
+
+        // Recorrer un array amb for
+        console.log("Recorrer un array amb for:");
+        const fruites = ["poma","pera", "plàtan"];
+
+        // For per recorrer el array
+        for (let i = 0; i< fruites.length; i++) {
+            console.log(fruites[i]);
+        }
+
+        // Recorrer els atributs d'un objecte amb for...in
+        console.log("Recorrer els atributs d'un objecte amb for...in:");
+
+        // Definim un objecte cotxe
+        const cotxe = {
+            marca: "Toyota",
+            model: "Corolla",
+            any: 2020  
+        }
+
+        // For...in per recorrer els atributs de l'objecte
+        for (let atribut in cotxe) {
+            console.log(atribut + ": " + cotxe[atribut]);
+        }
+    </script>
+</body>
+</html>
