@@ -8,7 +8,50 @@
     <script src="tasques.js"></script>
     <link rel="stylesheet" href="estils.css">
 </head>
+<script>
 
+    let tasques = [];
+    let id = 0;
+
+    function tasca(nom, estat, id) {
+        return [nom, estat, id];
+    }
+
+    function mostrarTasques() {
+        // Solo añadimos las iniciales si el array está vacío
+        if (tasques.length === 0) {
+        tasques.push(tasca("Prova", "pendent", 0));
+        tasques.push(tasca("ds", "asd", 2));
+        }
+
+        let resultat = "";
+        tasques.forEach(function (valor) {
+        resultat += valor + "<br>";
+        });
+
+        document.getElementById("tasques").innerHTML = resultat;
+    }
+    
+    function afegirTasca() {
+        id++;
+        tasques.push(tasca("nova tasca", "pendent", id));
+        mostrarTasques(); // actualiza la lista
+    }
+    
+    function eliminarTasca(id) {
+        let idEliminar = parseInt(("Introdueix el l'id de la tasca que vols eliminar:"));
+
+        if (isNan(idEliminar) || idEliminar < 0 || idEliminar >= tasques.length || tasques.find(id) == null) {
+            alert("Id invalid!");
+            return;
+        }
+        
+      
+    }
+    
+    
+    
+</script>
 <body onload="mostrarTasques()">
     <div id="botons">
         <button onclick="afegirTasca(mostrarTasques)">Afegir tasca</button>
@@ -19,4 +62,4 @@
     <div id="tasques"></div>
 </body>
 
-</html>
+</html> 
