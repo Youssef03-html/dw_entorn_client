@@ -1,0 +1,53 @@
+/* estils.css */
+
+/* Cos general */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 20px;
+}
+
+/* Títol */
+h2 {
+    color: #333;
+}
+
+/* Contenidor de botons */
+#botons {
+    margin-bottom: 20px;
+}
+
+#botons button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#botons button:hover {
+    background-color: #45a049;
+}
+
+/* Llista de tasques */
+#tasques {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    min-height: 50px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Estil per a tasques completades */
+#tasques span.completada {
+    text-decoration: line-through;
+    color: #888;
+}
+
+/* Estil per a tasques pendents */
+#tasques span.no-completada {
+    color: #333;
+}

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activitat avaluable 2</title>
+    <script src="tasques.js"></script>
+    <link rel="stylesheet" href="ProgramacioAmbFuncions.css">
+</head>
+<script>
+
+    let tasques = []; // Array on guardarem les tasques
+    let id = 0; // Contador per assignar Id únic
+
+    function tasca(nom, estat, id) {
+        return [nom, estat, id]; // Retorna la tasca com a array
+    }
+
+    function mostrarTasques() {
+        if (tasques.length === 0) {
+
+            document.getElementById("tasques").innerHTML = "No hi ha tasques"; // Missatge si no hi ha res
+            return;
+
+        }
+
+        let resultat = "";
+
+        tasques.forEach(function(valor) {
+            let nom = valor[0]; 
+            let estat = valor[1]; 
+            let idTasca = valor[2]; 
+
+            if (estat === "completada") {
+                resultat += "[ID " + idTasca + "] *" + nom + " - " + estat + "*<br>"; // Marca les completades
+            } else {
+                resultat += "[ID " + idTasca + "] " + nom + " - " + estat + "<br>"; // Mostra les pendents
+            }
+        });
+
+        document.getElementById("tasques").innerHTML = resultat; // Actualitza el div
+    }
+
+    // funcio Afegir tasca
+    function afegirTasca() { 
+
+        let nomNovaTasca; 
+        let nomCorrecte = false;
+        let teLletraONumero;
+
+        do {
+            teLletraONumero = false;
+
+            nomNovaTasca = prompt("Intrdueix el nom de la tasca (escriu \"sortir\" sino vols afegir una tasca i cancelar l'acció):");
+
+            if (nomNovaTasca == null) {
+
+                nomCorrecte = false;
+
+            } else if (nomNovaTasca.toLowerCase() === "sortir") {
+
+                return; // Permet sortir amb la paraula "sortir"
+
+            } else {
+
+                for (let i = 0; i < nomNovaTasca.length; i++) {
+                    let c = nomNovaTasca.charAt(i).toLowerCase();
+                    if ((c >= "a" && c <= "z") || (c >= "0" && c <= "9")) {
+                        teLletraONumero = true; // Comprovació si conté lletra o número
+                        i = nomNovaTasca.length;
+                    }
+                }
+
+            }
+
+            if (!isNaN(nomNovaTasca) || nomNovaTasca == "" || nomNovaTasca == null || !teLletraONumero) {
+                alert("Nom invalid!!"); 
+                nomCorrecte = false; 
+            } else {
+                nomCorrecte = true;
+            }
+
+        } while (!nomCorrecte);
+
+        let estatNovaTasca;
+        let estatCorrecte = false;
+
+        do {
+            estatNovaTasca = prompt("Introdueix l'estat de la tasca (\"completada\" o \"no completada\", escriu \"sortir\" sino vols afegir una tasca i cancelar l'acció):");
+
+            if (estatNovaTasca == "" || estatNovaTasca == null) {
+                alert("Estat invalid!!"); 
+                estatCorrecte = false; 
+            } else {
+                estatNovaTasca = estatNovaTasca.toLowerCase();
+
+                if (estatNovaTasca === "sortir") {
+                    return; // Permet sortir
+                } else if (estatNovaTasca !== "completada" && estatNovaTasca !== "no completada") {
+                    alert("Estat invalid!"); 
+                    estatCorrecte = false; 
+                } else estatCorrecte = true; 
+            }
+        } while (!estatCorrecte);
+
+        id++; 
+        tasques.push(tasca(nomNovaTasca, estatNovaTasca, id)); // Afegeix la tasca
+        mostrarTasques(); // Actualitza la llista
+    }
+
+    // Eliminar tasca
+    function eliminarTasca() {
+        let idEliminar = parseInt(prompt("Introdueix el l'id de la tasca que vols eliminar:")); // Demana l'ID
+
+        let indexTascaAEliminar = tasques.findIndex(t => t[2] === idEliminar); // Busca l'índex
+
+        if (isNaN(idEliminar) || indexTascaAEliminar === -1) { // Comprova que sigui vàlid
+            alert("Id invàlid!");
+            return;
+        }
+
+        tasques.splice(indexTascaAEliminar, 1); // Elimina la tasca
+        mostrarTasques(); // Actualitza la llista
+    }
+
+    // Canviar estat
+    function canviarEstat() {
+        if (tasques.length === 0) {
+            alert("No hi ha tasques a la llista!"); // No hi ha tasques
+            return;
+        }
+
+        let idCanviar = parseInt(prompt("Introdueix l'id de la tasca que vols canviar d'estat:"));
+
+        let indexTasca = tasques.findIndex(t => t[2] === idCanviar); // Troba la tasca
+
+        if (isNaN(idCanviar) || indexTasca === -1) { // Comprova l'id
+            alert("Id invàlid!");
+            return;
+        }
+
+        if (tasques[indexTasca][1] === "completada") {
+            tasques[indexTasca][1] = "no completada"; // Canvia estat
+        } else {
+            tasques[indexTasca][1] = "completada";
+        }
+
+        mostrarTasques(); // Actualitza la llista
+    }
+
+</script>
+<body onload="mostrarTasques()">
+    <div id="botons">
+        <button onclick="afegirTasca(mostrarTasques)">Afegir tasca</button>
+        <button onclick="eliminarTasca(mostrarTasques)">Eliminar tasca</button>
+        <button onclick="canviarEstat(mostrarTasques)">Canviar estat d'una tasca</button>
+    </div>
+    <h2>Llista de Tasques</h2>
+    <div id="tasques"></div>
+</body>
+
+</html> 
