@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La 6/49</title>
+</head>
+<body>
+    <script>
+        let combGuanyadora = [];
+
+        while (combGuanyadora.length < 6) {
+            let num = Math.floor(Math.random()*49)+1;
+
+            if (!combGuanyadora.includes(num)) {
+                combGuanyadora.push(num);
+            }
+        }
+        combGuanyadora.sort((a, b) => a - b); // Ordena de menor a major => sort((a, b) => b - a) en cas de voler de major a menor
+
+        let complementari = Math.floor(Math.random()*49)+1
+
+        while (combGuanyadora.includes(complementari)) {
+            complementari = Math.floor(Math.random()*49)+1
+        }
+
+        let reintegrament = Math.floor(Math.random()*10);
+
+        console.log(combGuanyadora);
+        console.log(complementari);
+        console.log(reintegrament);
+
+        document.body.innerHTML = `
+            <h2>Combinacio guanyadora: ${combGuanyadora}</h2>
+            <h2>Complementari: ${complementari}</h2>
+            <h2>Reintegrament: ${reintegrament}</h2> 
+        `;
+    </script>
+</body>
+</html>
