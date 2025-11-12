@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activitat 1</title>
+</head>
+<body>
+<script>
+
+
+    let data;
+    let parts;
+    let flag = false;
+    let dia;
+    let mes;
+    let any;
+    let dataNaix;
+
+    do {
+            data = prompt("Introdueix la teva data de naixement (DD-MM-AAAA):");
+
+            // Comprovo el format
+            if (data && data.includes("-")) {
+                parts = data.split("-");
+
+                    if (parts.length === 3) {
+                        dia = parseInt(parts[0]);
+                        mes = parseInt(parts[1]) - 1; // Resto 1, perque he vist que et retorna els mesos de 0 a 11
+                        any = parseInt(parts[2]);
+
+                        if (!isNaN(dia) && !isNaN(mes) && !isNaN(any)) {
+                            dataNaix = new Date(any, mes, dia);
+                            if (dataNaix.getFullYear() === any && dataNaix.getMonth() === mes && dataNaix.getDate() === dia) {
+                                flag = true;
+                            }
+                        }
+                    }
+            }
+            if (!flag) alert("Format incorrecte. Escriu-ho com DD-MM-AAAA.");
+    } while (!flag);
+
+    let ara = new Date();
+    let diff = ara - dataNaix;
+
+    // Calculo la diferencia
+    let anys = diff / (1000 * 60 * 60 * 24 * 365.25);
+    let dies = diff / (1000 * 60 * 60 * 24);
+    let hores = diff / (1000 * 60 * 60);
+    let minuts = diff / (1000 * 60);
+    let segons = diff / 1000;
+
+    // Mostro amb 2 decimals
+    console.log(parseFloat(anys.toFixed(2)));
+    console.log(parseFloat(dies.toFixed(2)));
+    console.log(parseFloat(hores.toFixed(2)));
+    console.log(parseFloat(minuts.toFixed(2)));
+    console.log(parseFloat(segons.toFixed(2)));
+
+</script>
+</body>
+</html>

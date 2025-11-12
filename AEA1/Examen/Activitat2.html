@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activitat 2</title>
+</head>
+<body>
+  <h2>Taula de valors del sinus i cosinus (0 a 2)</h2>
+  <table>
+    <tr>
+      <th>x</th>
+      <th>sin(x)</th>
+      <th>cos(x)</th>
+    </tr>
+    <script>
+      for (let x = 0; x <= 2; x += 0.01) {
+        let sin = Math.sin(x);
+        let cos = Math.cos(x);
+        let colorSin, colorCos;
+
+        if (sin >= 0) {
+          colorSin = "blue";
+        } else {
+          colorSin = "red";
+        }
+
+        if (cos >= 0) {
+          colorCos = "blue";
+        } else {
+          colorCos = "red";
+        }
+
+        document.write("<tr>");
+        document.write("<td>" + x.toFixed(2) + "</td>");
+        document.write("<td style='color:" + colorSin + "'>" + sin.toFixed(4) + "</td>");
+        document.write("<td style='color:" + colorCos + "'>" + cos.toFixed(4) + "</td>");
+        document.write("</tr>");
+      }
+    </script>
+  </table>
+</body>
+</html>

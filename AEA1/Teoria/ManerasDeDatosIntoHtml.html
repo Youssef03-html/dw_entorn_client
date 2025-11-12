@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Demo inserción JS</title></head>
+<body>
+  <h2 id="h1">H1 (textContent)</h2>
+  <div id="htmlArea"></div>
+  <div id="list"></div>
+  <input id="in" type="text" placeholder="Escribe algo">
+  <button id="btnSet">Set valor en input</button>
+
+  <template id="tpl"><p class="t"></p></template>
+
+  <script>
+    // textContent
+    document.getElementById('h1').textContent += ' — actualizado con textContent';
+
+    // innerHTML
+    document.getElementById('htmlArea').innerHTML = '<strong>HTML</strong> con <em>innerHTML</em>';
+
+    // insertAdjacentHTML
+    document.getElementById('htmlArea').insertAdjacentHTML('beforeend', '<div>Insertado con insertAdjacentHTML</div>');
+
+    // createElement + append
+    const list = document.getElementById('list');
+    const li = document.createElement('div');
+    li.textContent = 'Creado con createElement y append';
+    list.append(li);
+
+    // template
+    const clone = document.getElementById('tpl').content.cloneNode(true);
+    clone.querySelector('.t').textContent = 'Instancia de template';
+    list.appendChild(clone);
+
+    // input value
+    document.getElementById('btnSet').addEventListener('click', () => {
+      document.getElementById('in').value = 'Valor puesto por JS';
+    });
+
+    // dataset demo
+    list.dataset.demo = 'true';
+    console.log('dataset demo:', list.dataset.demo);
+  </script>
+</body>
+</html>

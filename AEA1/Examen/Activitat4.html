@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activitat 4</title>
+</head>
+<body>
+<script>
+    let missatge = prompt("Introdueix el missatge en minúscules:");
+    let resultat = "";
+    let alfabet = "abcçdefghijklmnopqrstuvwxyz"; 
+    let desplacament = 5;
+
+    for (let i = 0; i < missatge.length; i++) {
+        let lletra = missatge.charAt(i);
+        let posicio = alfabet.indexOf(lletra);
+
+        if (posicio === -1) { // no es lletra
+            resultat += lletra;
+        } else {
+            let novaPos = (posicio + desplacament) % alfabet.length;
+            resultat += alfabet.charAt(novaPos);
+        }
+    }
+
+    document.write(`<h3>Frase original: ${missatge}</h3>`);
+    document.write(`<h3>Frase xifrada: ${resultat}</h3>`);
+</script>
+</body>
+</html>
