@@ -35,6 +35,3 @@ console.log("0 || 5 ->", 0 || 5); // devuelve 5 (primer truthy)
 // false, 0, -0, "", null, undefined, NaN, 0n
 // Todos los demás valores son truthy (incluyendo "0", [], {})
 
-// Pruebas
-console.log("5 > 3:", 5 > 3);
-console.log("0 || 'def' :", 0 || "def");
