@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let llibre = {
+            titol: 'El señor de los anillos',
+            autor: 'Tolkien',
+            any: 1975,
+            llegit: false
+        }
+        function mostrarInformacio() {
+
+            document.getElementById("titol").innerText = llibre.titol;
+            document.getElementById("autor").innerText = llibre.autor;
+        }
+
+        let numerosFavorits = [1, 2, 3, 4 , 5];
+        let suma;
+        numerosFavorits.forEach((valor, index) => {
+           suma += valor;
+        });
+    </script>
+    <p id="titol"></p>
+    <p id="autor"></p>
+    
+
+    <button onclick="mostrarInformacio()">asdas</button>
+</body>
+</html>

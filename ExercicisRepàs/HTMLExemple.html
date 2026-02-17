@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    <p id="paragraf"></p>
+    <button onclick="actualizarParagraf()" style="color: blue;">Escriure</button>
+    <button onclick="borrarParagraf()" style="color: red;">Esborrar</button>
+        <script>
+        let nom = prompt('Com et dius?');
+        function actualizarParagraf() {
+            let confirmar = confirm('Estas segur?');
+            if (confirmar)
+            {
+                document.getElementById("paragraf").innerText = 'El contingut del paragraf canvia. Vale '+ nom + '.';
+                alert('Missatge escrit correctament!');
+            }
+           
+        }
+
+        function borrarParagraf() {
+            let confirmar = confirm('Estas segur?');
+            if (confirmar)
+            {
+                document.getElementById("paragraf").innerText = "";
+                alert('Missatge esborrat correctament!');
+            }
+        }
+    </script>
+</body>
+</html>
