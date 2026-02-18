@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8" />
+  <title>Simulador Champions (UF2) - HTML + JS</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; }
+    .box { border:1px solid #ddd; padding:12px; margin:12px 0; max-width:900px; }
+    pre { white-space: pre-wrap; word-wrap: break-word; }
+    button { padding:8px 12px; font-size:16px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Simulador Champions (Quarts → Semis → Final)</h1>
+  <div style="margin-bottom:12px;">
+    <button id="run">Simular torneig</button>
+    <button id="netejar">Netejar</button>
+  </div>
+
+  <div id="output" class="box"><pre id="log"></pre></div>
+
+  <script>
+    const equips_inicials = ["Totthenham", "Manchester City", "Ajax", "Juventus", "Liverpool", "Porto", "Manchester United", "F.C. Barcelona"];
+
+    function barregjar(array) {
+      var a = array.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+      }
+      return a;
+    }
+
+    function emparellar(equips) {
+      var barrejats = barregjar(equips);
+      var parelles = [];
+      for (var i = 0; i < barrejats.length; i += 2) {
+        parelles.push([barrejats[i], barrejats[i + 1]]);
+      }
+      return parelles;
+    }
+
+    function gols_aleatoris() {
+      return Math.floor(Math.random() * 11); // 0..10
+    }
+
+    function decidir_penaltis(equipA, equipB) {
+      if (Math.random() < 0.5) return equipA;
+      return equipB;
+    }
+
+    function jugar_ida_tornada(equipA, equipB) {
+      var idaA = gols_aleatoris();
+      var idaB = gols_aleatoris();
+      var tornadaB = gols_aleatoris();
+      var tornadaA = gols_aleatoris();
+
+      var totalA = idaA + tornadaA;
+      var totalB = idaB + tornadaB;
+
+      var gols_fora_A = tornadaA;
+      var gols_fora_B = idaB;
+
+      var guanyador = null;
+      var motiu = "";
+
+      if (totalA > totalB) {
+        guanyador = equipA;
+        motiu = "Aggregate " + totalA + " - " + totalB;
+      } else if (totalB > totalA) {
+        guanyador = equipB;
+        motiu = "Aggregate " + totalB + " - " + totalA;
+      } else {
+        if (gols_fora_A > gols_fora_B) {
+          guanyador = equipA;
+          motiu = "Aggregate empat " + totalA + " - " + totalB + " (gols fora " + gols_fora_A + " > " + gols_fora_B + ")";
+        } else if (gols_fora_B > gols_fora_A) {
+          guanyador = equipB;
+          motiu = "Aggregate empat " + totalA + " - " + totalB + " (gols fora " + gols_fora_B + " > " + gols_fora_A + ")";
+        } else {
+          guanyador = decidir_penaltis(equipA, equipB);
+          motiu = "Aggregate i gols fora empat -> Penaltis (vencedor aleatori)";
+        }
+      }
+
+      return {
+        equipA: equipA,
+        equipB: equipB,
+        ida: { casa: equipA, golsCasa: idaA, golsFora: idaB, fora: equipB },
+        tornada: { casa: equipB, golsCasa: tornadaB, golsFora: tornadaA, fora: equipA },
+        totals: (function(){ var o = {}; o[equipA] = totalA; o[equipB] = totalB; return o; })(),
+        gols_fora: (function(){ var o = {}; o[equipA] = gols_fora_A; o[equipB] = gols_fora_B; return o; })(),
+        guanyador: guanyador,
+        motiu: motiu
+      };
+    }
+
+    function jugar_partit_unic(equipA, equipB) {
+      var golsA = gols_aleatoris();
+      var golsB = gols_aleatoris();
+      var guanyador = null;
+      var motiu = golsA + " - " + golsB;
+      if (golsA > golsB) {
+        guanyador = equipA;
+      } else if (golsB > golsA) {
+        guanyador = equipB;
+      } else {
+        guanyador = decidir_penaltis(equipA, equipB);
+        motiu = motiu + " (empat -> penaltis, vencedor aleatori)";
+      }
+      return { equipA: equipA, equipB: equipB, golsA: golsA, golsB: golsB, guanyador: guanyador, motiu: motiu };
+    }
+
+    function simular_rodada(parelles) {
+      var resultats = [];
+      var classificats = [];
+      for (var i = 0; i < parelles.length; i++) {
+        var p = parelles[i];
+        var res = jugar_ida_tornada(p[0], p[1]);
+        resultats.push(res);
+        classificats.push(res.guanyador);
+      }
+      return { resultats: resultats, classificats: classificats };
+    }
+
+    function simular_torneig(equips) {
+      var sortida = [];
+      var parelles_quarts = emparellar(equips);
+      var quarts = simular_rodada(parelles_quarts);
+      sortida.push({ fase: "QUARTS DE FINAL", resultats: quarts.resultats });
+
+      var parelles_semis = emparellar(quarts.classificats);
+      var semis = simular_rodada(parelles_semis);
+      sortida.push({ fase: "SEMIFINALS", resultats: semis.resultats });
+
+      var final = jugar_partit_unic(semis.classificats[0], semis.classificats[1]);
+      sortida.push({ fase: "FINAL", resultats: [final] });
+
+      return { sortida: sortida, guanyador: final.guanyador };
+    }
+
+    function imprimir_resultats(simulacio) {
+      var linies = [];
+      for (var i = 0; i < simulacio.sortida.length; i++) {
+        var fase = simulacio.sortida[i];
+        linies.push("=== " + fase.fase + " ===");
+        for (var j = 0; j < fase.resultats.length; j++) {
+          var r = fase.resultats[j];
+          if (fase.fase === "FINAL") {
+            linies.push("FINAL: " + r.equipA + " " + r.golsA + " - " + r.golsB + " " + r.equipB);
+            linies.push("Guanyador: " + r.guanyador + " (" + r.motiu + ")");
+          } else {
+            linies.push("Enfrontament: " + r.equipA + " vs " + r.equipB);
+            linies.push("  IDA: " + r.ida.casa + " " + r.ida.golsCasa + " - " + r.ida.golsFora + " " + r.ida.fora);
+            linies.push("  TORNADA: " + r.tornada.casa + " " + r.tornada.golsCasa + " - " + r.tornada.golsFora + " " + r.tornada.fora);
+            linies.push("  TOTALS: " + r.equipA + " " + r.totals[r.equipA] + " - " + r.totals[r.equipB] + " " + r.equipB);
+            linies.push("  Gols fora: " + r.equipA + "(" + r.gols_fora[r.equipA] + ") - " + r.equipB + "(" + r.gols_fora[r.equipB] + ")");
+            linies.push("  Classificat: " + r.guanyador + " (" + r.motiu + ")");
+          }
+        }
+        linies.push("");
+      }
+      linies.push(">> GUANYADOR DEL TORNEIG: " + simulacio.guanyador);
+      return linies.join("\n");
+    }
+
+    document.getElementById('run').addEventListener('click', function() {
+      var resultat_simulacio = simular_torneig(equips_inicials);
+      var text = imprimir_resultats(resultat_simulacio);
+      document.getElementById('log').innerText = text;
+      console.log(resultat_simulacio);
+    });
+
+    document.getElementById('netejar').addEventListener('click', function() {
+      document.getElementById('log').innerText = "";
+    });
+
+    // Opcional: executar una simulació inicial
+    // var inici = simular_torneig(equips_inicials);
+    // document.getElementById('log').innerText = imprimir_resultats(inici);
+  </script>
+</body>
+</html>
