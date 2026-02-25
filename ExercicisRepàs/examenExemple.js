@@ -1,26 +1,4 @@
-<!doctype html>
-<html lang="ca">
-<head>
-  <meta charset="utf-8" />
-  <title>Simulador Champions (UF2)</title>
-  <style>
-    body { font-family: Arial, sans-serif; padding: 20px; line-height:1.5; }
-    h1, h2 { text-align: center; }
-    .box { border:1px solid #ddd; padding:12px; margin:12px auto; max-width:700px; }
-    .match { margin:8px 0; }
-    .bold { font-weight:700; }
-    button { padding:8px 12px; font-size:16px; cursor:pointer; }
-  </style>
-</head>
-<body>
-  <h1>Simulador Champions (Quarts → Semifinals → Final)</h1>
-  <div style="text-align:center; margin-bottom:12px;">
-    <button id="run">Simular torneig</button>
-  </div>
 
-  <div id="output" class="box"></div>
-
-  <script>
   // ====== Config ======
   const initialTeams = [
     "Totthenham", "Manchester City", "Ajax", "Juventus",
@@ -211,6 +189,4 @@
 
   // Opcional: executar al carregar la pàgina per veure un resultat immediat
   // simulateTournament();
-  </script>
-</body>
-</html>
+

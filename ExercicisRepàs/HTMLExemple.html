@@ -1,35 +1,111 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ca">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
+  <meta charset="utf-8" />
+  <title>Temperatures Setmanals</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding:20px; }
+    table { border-collapse: collapse; width: 100%; max-width:600px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background:#f0f0f0; }
+    .resum { margin-top:16px; max-width:600px; }
+  </style>
 </head>
 <body>
-    <p id="paragraf"></p>
-    <button onclick="actualizarParagraf()" style="color: blue;">Escriure</button>
-    <button onclick="borrarParagraf()" style="color: red;">Esborrar</button>
-        <script>
-        let nom = prompt('Com et dius?');
-        function actualizarParagraf() {
-            let confirmar = confirm('Estas segur?');
-            if (confirmar)
-            {
-                document.getElementById("paragraf").innerText = 'El contingut del paragraf canvia. Vale '+ nom + '.';
-                alert('Missatge escrit correctament!');
-            }
-           
+  <h1>Temperatures màximes i mínimes (setmana)</h1>
+  <div id="resultat"></div>
+
+  <script>
+    var dies = ["Dilluns","Dimarts","Dimecres","Dijous","Divendres","Dissabte","Diumenge"];
+    var registres = [];
+
+    for (var i = 0; i < dies.length; i++) {
+      var dia = dies[i];
+      var entrada = null;
+      var maxima = null;
+      var minima = null;
+      var valid = false;
+
+      while (!valid) {
+        entrada = prompt("Introdueix la temperatura MÀXIMA;MÍNIMA per a " + dia + " (ex: 23;9):", "");
+        if (entrada === null) {
+          alert("Has d'introduir les temperatures per continuar.");
+          continue;
+        }
+        entrada = entrada.trim();
+        if (entrada === "") {
+          alert("Entrada buida. Introdueix el format MÀXIMA;MÍNIMA.");
+          continue;
         }
 
-        function borrarParagraf() {
-            let confirmar = confirm('Estas segur?');
-            if (confirmar)
-            {
-                document.getElementById("paragraf").innerText = "";
-                alert('Missatge esborrat correctament!');
-            }
+        var parts = entrada.split(";");
+        if (parts.length !== 2) {
+          alert("Format invàlid. Recorda: MÀXIMA;MÍNIMA (ex: 23;9).");
+          continue;
         }
-    </script>
+
+        maxima = parseFloat(parts[0].trim());
+        minima = parseFloat(parts[1].trim());
+
+        if (isNaN(maxima) || isNaN(minima)) {
+          alert("Les temperatures han de ser valors numèrics.");
+          continue;
+        }
+
+        if (maxima < minima) {
+          alert("La màxima no pot ser menor que la mínima. Torna-ho a intentar.");
+          continue;
+        }
+
+        valid = true;
+      }
+
+      registres.push({ dia: dia, maxima: maxima, minima: minima });
+    }
+
+    var indexMesCalid = 0;
+    var indexMesFred = 0;
+    for (var j = 1; j < registres.length; j++) {
+      if (registres[j].maxima > registres[indexMesCalid].maxima) {
+        indexMesCalid = j;
+      }
+      if (registres[j].minima < registres[indexMesFred].minima) {
+        indexMesFred = j;
+      }
+    }
+
+    var contenidor = document.getElementById("resultat");
+    var taula = document.createElement("table");
+    var thead = document.createElement("thead");
+    var trh = document.createElement("tr");
+    var th1 = document.createElement("th"); th1.textContent = "Dia";
+    var th2 = document.createElement("th"); th2.textContent = "Màxima (°C)";
+    var th3 = document.createElement("th"); th3.textContent = "Mínima (°C)";
+    trh.appendChild(th1); trh.appendChild(th2); trh.appendChild(th3);
+    thead.appendChild(trh);
+    taula.appendChild(thead);
+
+    var tbody = document.createElement("tbody");
+    for (var k = 0; k < registres.length; k++) {
+      var fila = document.createElement("tr");
+      var tdDia = document.createElement("td"); tdDia.textContent = registres[k].dia;
+      var tdMax = document.createElement("td"); tdMax.textContent = registres[k].maxima;
+      var tdMin = document.createElement("td"); tdMin.textContent = registres[k].minima;
+      fila.appendChild(tdDia); fila.appendChild(tdMax); fila.appendChild(tdMin);
+      tbody.appendChild(fila);
+    }
+    taula.appendChild(tbody);
+    contenidor.appendChild(taula);
+
+    var resum = document.createElement("div");
+    resum.className = "resum";
+    var p1 = document.createElement("p");
+    p1.textContent = "Dia més càlid: " + registres[indexMesCalid].dia + " (" + registres[indexMesCalid].maxima + " °C)";
+    var p2 = document.createElement("p");
+    p2.textContent = "Dia més fred: " + registres[indexMesFred].dia + " (" + registres[indexMesFred].minima + " °C)";
+    resum.appendChild(p1);
+    resum.appendChild(p2);
+    contenidor.appendChild(resum);
+  </script>
 </body>
 </html>

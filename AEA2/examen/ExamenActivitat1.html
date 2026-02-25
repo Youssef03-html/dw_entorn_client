@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Fico ids personalitzats per poder apunar bé a cada pàrraf-->
+    <p id="dilluns"></p>
+    <p id="dimarts"></p>
+    <p id="dimecres"></p>
+    <p id="dijous"></p>
+    <p id="divendres"></p>
+    <p id="dissabte"></p>
+    <p id="diumenge"></p>
+    <p id="resum"></p>
+    <script>
+        // Array dies i registres on guardare tot junt
+        const dies = ["Dilluns","Dimarts","Dimecres","Dijous","Divendres","Dissabte","Diumenge"];
+        let registres = [];
+        
+        // For general per recorrer els dies
+        for (let i = 0; i < dies.length; i++) {
+            let dia = dies[i];
+            let entrada = null;
+            let maxima = null;
+            let minima = null;
+            let valid = false;
+            
+            // bucle per a comprovar l'entrada de l'usuari
+            while(!valid) {
+                entrada = prompt("Introdueix la temperatura MÀXIMA;MÍNIMA per a " + dia + " (ex: 23;9):", "");
+
+                if (entrada === null) {
+                    alert("Has d'introduir les temperatures per continuar.");
+                    continue;
+                }
+
+                entrada = entrada.trim();
+
+                if (entrada === '') {
+                    alert("Has d'introduir les temperatures per continuar.");
+                    continue;
+                }
+
+                let parts = entrada.split(";");
+                if (parts.length !== 2) {
+                    alert("Format invàlid. Recorda: MÀXIMA;MÍNIMA (ex: 23;9).");
+                    continue;
+                }
+                
+                maxima = parseFloat(parts[0].trim());
+                minima = parseFloat(parts[1].trim());
+
+                if (isNaN(maxima) || isNaN(minima)) {
+                    alert("Les temperatures han de ser valors numèrics.");
+                    continue;
+                }
+
+                if (maxima < minima) {
+                    alert("La màxima no pot ser menor que la mínima. Torna-ho a intentar.");
+                    continue;
+                }
+
+                valid = true;
+            }
+
+            // Introdueixo tot en aquest array
+            registres.push({ dia: dia, maxima: maxima, minima: minima });
+        }
+
+        // variables per a més fret i més calent...
+        let index_mes_calid = 0;
+        let index_mes_fred = 0;
+
+        for (let i = 1; i < registres.length; i++) {
+            if (registres[i].maxima > registres[index_mes_calid].maxima) {
+                index_mes_calid = i;
+            }
+            if (registres[i].minima < registres[index_mes_fred].minima) {
+                index_mes_fred = i;
+            }
+        }
+
+        // Busco cada pàrraf per id i l'introdueixo les dades
+        document.getElementById("dilluns").innerText =
+            registres[0].dia + ". Màx: " + registres[0].maxima + ". Mín: " + registres[0].minima;
+
+        document.getElementById("dimarts").innerText =
+            registres[1].dia + ". Màx: " + registres[1].maxima + ". Mín: " + registres[1].minima;
+
+        document.getElementById("dimecres").innerText =
+            registres[2].dia + ". Màx: " + registres[2].maxima + ". Mín: " + registres[2].minima;
+
+        document.getElementById("dijous").innerText =
+            registres[3].dia + ". Màx: " + registres[3].maxima + ". Mín: " + registres[3].minima;
+
+        document.getElementById("divendres").innerText =
+            registres[4].dia + ". Màx: " + registres[4].maxima + ". Mín: " + registres[4].minima;
+
+        document.getElementById("dissabte").innerText =
+            registres[5].dia + ". Màx: " + registres[5].maxima + ". Mín: " + registres[5].minima;
+
+        document.getElementById("diumenge").innerText =
+            registres[6].dia + ". Màx: " + registres[6].maxima + ". Mín: " + registres[6].minima;
+
+        document.getElementById("resum").innerText =
+            "Dia més càlid: " + registres[index_mes_calid].dia +
+            " (" + registres[index_mes_calid].maxima + "°C) | " +
+            "Dia més fred: " + registres[index_mes_fred].dia +
+            " (" + registres[index_mes_fred].minima + "°C)";
+    </script>
+</body>
+</html>
