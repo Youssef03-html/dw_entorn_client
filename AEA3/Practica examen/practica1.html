@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplo completo</title>
+</head>
+<body>
+
+  <!-- Formulario principal -->
+  <form id="formulario">
+    <p>
+      <!-- Etiqueta del campo nombre -->
+      <label for="nombre">Nombre:</label>
+      <!-- Input de texto para escribir el nombre -->
+      <input type="text" id="nombre">
+    </p>
+
+    <p>
+      <!-- Etiqueta del campo edad -->
+      <label for="edad">Edad:</label>
+      <!-- Input numérico para introducir la edad -->
+      <input type="number" id="edad" min="1">
+    </p>
+
+    <p>
+      <!-- Etiqueta del campo país -->
+      <label for="pais">País:</label>
+      <!-- Lista desplegable para elegir un país -->
+      <select id="pais">
+        <!-- Opción vacía inicial -->
+        <option value="">Elige uno</option>
+        <!-- Opción España -->
+        <option value="es">España</option>
+        <!-- Opción Francia -->
+        <option value="fr">Francia</option>
+      </select>
+    </p>
+
+    <p>
+      <!-- Checkbox para aceptar condiciones -->
+      <label>
+        <input type="checkbox" id="acepta">
+        Acepto las condiciones
+      </label>
+    </p>
+
+    <!-- Botón que envía el formulario -->
+    <button type="submit">Enviar</button>
+  </form>
+
+  <!-- Aquí se mostrará el mensaje de validación -->
+  <p id="mensaje"></p>
+
+  <script>
+    // Guardamos en variables los elementos del DOM que vamos a usar
+    const formulario = document.getElementById("formulario");
+    const nombre = document.getElementById("nombre");
+    const edad = document.getElementById("edad");
+    const pais = document.getElementById("pais");
+    const acepta = document.getElementById("acepta");
+    const mensaje = document.getElementById("mensaje");
+
+    // Evento submit: se ejecuta cuando el usuario pulsa "Enviar"
+    formulario.addEventListener("submit", function (event) {
+      // Evita que el formulario se envíe y recargue la página
+      event.preventDefault();
+
+      // Cogemos el valor del nombre y quitamos espacios al principio y al final
+      const nombreValor = nombre.value.trim();
+
+      // Cogemos el valor de la edad y quitamos espacios
+      const edadValor = edad.value.trim();
+
+      // Cogemos el valor seleccionado del desplegable
+      const paisValor = pais.value;
+
+      // Comprobamos si el checkbox está marcado
+      const aceptaValor = acepta.checked;
+
+      // Validación del nombre:
+      // debe tener al menos 3 caracteres
+      if (nombreValor.length < 3) {
+        mensaje.textContent = "El nombre debe tener al menos 3 caracteres";
+        mensaje.style.color = "red";
+        return; // corta la ejecución si hay error
+      }
+
+      // Validación de la edad:
+      // no puede estar vacía y debe ser 18 o más
+      if (edadValor === "" || parseInt(edadValor, 10) < 18) {
+        mensaje.textContent = "Debes tener 18 años o más";
+        mensaje.style.color = "red";
+        return; // corta la ejecución si hay error
+      }
+
+      // Validación del país:
+      // no puede quedar la opción vacía
+      if (paisValor === "") {
+        mensaje.textContent = "Debes elegir un país";
+        mensaje.style.color = "red";
+        return; // corta la ejecución si hay error
+      }
+
+      // Validación del checkbox:
+      // debe estar marcado
+      if (!aceptaValor) {
+        mensaje.textContent = "Debes aceptar las condiciones";
+        mensaje.style.color = "red";
+        return; // corta la ejecución si hay error
+      }
+
+      // Si todo está correcto, mostramos mensaje de éxito
+      mensaje.textContent = "Formulario correcto";
+      mensaje.style.color = "green";
+    });
+  </script>
+
+</body>
+</html>
